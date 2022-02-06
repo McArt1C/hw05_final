@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block title %}Зарегистрироваться{% endblock %}
+{% block content %}
+    {% with card_header_text='Зарегистрироваться' button_text='Зарегистрироваться' password_reset_link=False %}
+        {% include 'users/includes/form.html' %}
+    {% endwith %}
+{% endblock %}
