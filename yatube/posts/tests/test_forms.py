@@ -125,7 +125,7 @@ class PostCreateFormTests(TestCase):
             comments_count
         )
 
-    def test_guest_cant_comment(self):
+    def test_authorized_can_comment(self):
         comments_count = PostCreateFormTests.post.comments.count()
         self.authorized_client.post(
             reverse('posts:add_comment', kwargs={'post_id': 1}),

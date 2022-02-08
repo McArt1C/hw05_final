@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.conf import settings
 from django.core.cache import cache
 
-from ..models import Group, Post, User
+from ..models import Group, Post, User, Follow
 
 
 class PostPagesTests(TestCase):
@@ -21,6 +21,7 @@ class PostPagesTests(TestCase):
             last_name='Фамилия'
         )
         cls.user2 = User.objects.create_user(username='test-user-2')
+        cls.user3 = User.objects.create_user(username='test-user-3')
         cls.group1 = Group.objects.create(
             title='Тестовая группа 1',
             slug='test-slug-1',
@@ -59,6 +60,10 @@ class PostPagesTests(TestCase):
         self.guest_client = Client()
         self.authorized_client = Client()
         self.authorized_client.force_login(PostPagesTests.user1)
+        self.authorized_client2 = Client()
+        self.authorized_client2.force_login(PostPagesTests.user2)
+        self.authorized_client3 = Client()
+        self.authorized_client3.force_login(PostPagesTests.user3)
 
     def test_views_use_correct_templates(self):
         templates_pages = PostPagesTests.templates_pages_names.items()
@@ -211,6 +216,43 @@ class PostPagesTests(TestCase):
             content_after_creating_post,
             content_after_clearing_cache
         )
+
+    def test_authorized_user_can_follow_and_unfollow(self):
+        self.authorized_client.get(
+            reverse(
+                'posts:profile_follow',
+                kwargs={'username': 'test-user-2'}
+            )
+        )
+        self.assertEqual(Follow.objects.count(), 1)
+        self.authorized_client.get(
+            reverse(
+                'posts:profile_unfollow',
+                kwargs={'username': 'test-user-2'}
+            )
+        )
+        self.assertEqual(Follow.objects.count(), 0)
+
+    def test_guest_cant_follow(self):
+        self.guest_client.get(
+            reverse(
+                'posts:profile_follow',
+                kwargs={'username': 'test-user-2'}
+            )
+        )
+        self.assertEqual(Follow.objects.count(), 0)
+
+    def test_new_post_appears_at_followers(self):
+        self.authorized_client2.get(
+            reverse(
+                'posts:profile_follow',
+                kwargs={'username': 'test-user-1'}
+            )
+        )
+        response = self.authorized_client2.get(reverse('posts:follow_index'))
+        self.assertEqual(len(response.context['page_obj']), 2)
+        response = self.authorized_client3.get(reverse('posts:follow_index'))
+        self.assertEqual(len(response.context['page_obj']), 0)
 
     def finish_test_for_pages_with_post_list(self, reverse_name, expected):
         response = self.authorized_client.get(reverse_name)

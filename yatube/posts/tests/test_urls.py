@@ -30,6 +30,7 @@ class StaticURLTests(TestCase):
         cls.private_urls = [
             '/create/',
             '/posts/1/edit/',
+            '/follow/',
         ]
         cls.templates_url_names = {
             '/': 'posts/index.html',
@@ -38,6 +39,7 @@ class StaticURLTests(TestCase):
             '/posts/1/': 'posts/post_detail.html',
             '/create/': 'posts/create_post.html',
             '/posts/1/edit/': 'posts/create_post.html',
+            '/follow/': 'posts/follow.html',
         }
 
     def setUp(self):
