@@ -193,9 +193,9 @@ class PostPagesTests(TestCase):
 
     def test_index_page_cache(self):
         new_post = Post.objects.create(
-                author=PostPagesTests.user1,
-                text=f'Пост для проверки кэша',
-            )
+            author=PostPagesTests.user1,
+            text='Пост для проверки кэша',
+        )
         response = self.authorized_client.get(reverse('posts:index'))
         context_page_after_creating_post = response.context['page_obj']
         content_after_creating_post = response.content
