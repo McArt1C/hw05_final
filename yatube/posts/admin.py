@@ -10,7 +10,7 @@ class EditLinkToInlineObject(object):
         app_label = instance._meta.app_label
         model_name = instance._meta.model_name
         path = f'admin:{app_label}_{model_name}_change'
-        url = reverse(path,  args=[instance.pk])
+        url = reverse(path, args=[instance.pk])
         if instance.pk:
             return mark_safe(u'<a href="{u}">Редактировать</a>'.format(u=url))
         else:
