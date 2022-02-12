@@ -76,8 +76,6 @@ class PostPagesTests(TestCase):
         all_posts = Post.objects.all()
         reverse_name = reverse('posts:index')
         expected = {
-            'title':
-                'Последние обновления на сайте',
             'page_obj':
                 [post for post in all_posts][:settings.POSTS_PER_PAGE],
         }
@@ -92,7 +90,6 @@ class PostPagesTests(TestCase):
         )
         expected = {
             'group': test_group,
-            'title': 'Записи сообщества Тестовое описание',
             'page_obj':
                 [post for post in test_group_posts][:settings.POSTS_PER_PAGE],
         }
@@ -105,7 +102,6 @@ class PostPagesTests(TestCase):
             kwargs={'username': 'test-user-1'}
         )
         expected = {
-            'title': 'Профайл пользователя Имя Фамилия',
             'posts_count': test_user.posts.all().count(),
             'author': test_user,
             'page_obj':
@@ -251,6 +247,7 @@ class PostPagesTests(TestCase):
         )
         response = self.authorized_client2.get(reverse('posts:follow_index'))
         self.assertEqual(len(response.context['page_obj']), 2)
+        cache.clear()
         response = self.authorized_client3.get(reverse('posts:follow_index'))
         self.assertEqual(len(response.context['page_obj']), 0)
 

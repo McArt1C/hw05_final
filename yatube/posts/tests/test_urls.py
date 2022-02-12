@@ -1,6 +1,7 @@
 from http import HTTPStatus
 
 from django.test import TestCase, Client
+from django.core.cache import cache
 
 from ..models import Group, Post, User
 
@@ -43,6 +44,7 @@ class StaticURLTests(TestCase):
         }
 
     def setUp(self):
+        cache.clear()
         self.guest_client = Client()
         self.authorized_client_author = Client()
         self.authorized_client_author.force_login(StaticURLTests.user_author)

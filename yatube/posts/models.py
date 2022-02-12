@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.conf import settings
 
 User = get_user_model()
 
@@ -75,7 +76,10 @@ class Post(models.Model):
         verbose_name_plural = 'Посты'
 
     def __str__(self):
-        return self.text[:15]
+        return self.get_representation_text()
+
+    def get_representation_text(self):
+        return self.text[:settings.REPRESENTATION_LENGTH]
 
 
 class Comment(CreatedModel):
@@ -101,7 +105,10 @@ class Comment(CreatedModel):
         verbose_name_plural = "Комментарии"
 
     def __str__(self):
-        return self.text[:15]
+        return self.get_representation_text()
+
+    def get_representation_text(self):
+        return self.text[:settings.REPRESENTATION_LENGTH]
 
 
 class Follow(models.Model):
@@ -109,7 +116,7 @@ class Follow(models.Model):
         User,
         on_delete=models.CASCADE,
         related_name='follower',
-        verbose_name='Автор',
+        verbose_name='Подписчик',
     )
     author = models.ForeignKey(
         User,

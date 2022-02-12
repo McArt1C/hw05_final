@@ -1,19 +1,18 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import cache_page
 
 from .models import Post, Group, User, Follow
 from .forms import PostForm, CommentForm
 from .utils import get_page_obj
 
 
+@cache_page(20)
 def index(request):
     post_list = Post.objects.all()
     page_obj = get_page_obj(post_list, request.GET.get('page'))
 
-    title = 'Последние обновления на сайте'
-
     context = {
-        'title': title,
         'page_obj': page_obj,
     }
     template = 'posts/index.html'
@@ -25,11 +24,8 @@ def group_posts(request, slug):
     post_list = group.posts.all()
     page_obj = get_page_obj(post_list, request.GET.get('page'))
 
-    title = f'Записи сообщества {group.description}'
-
     context = {
         'group': group,
-        'title': title,
         'page_obj': page_obj,
     }
     template = 'posts/group_list.html'
@@ -38,7 +34,6 @@ def group_posts(request, slug):
 
 def profile(request, username):
     author = get_object_or_404(User, username=username)
-    title = f'Профайл пользователя {author.get_full_name()}'
     post_list = author.posts.all()
     page_obj = get_page_obj(post_list, request.GET.get('page'))
     following = False
@@ -48,7 +43,6 @@ def profile(request, username):
             author=author
         ).exists()
     context = {
-        'title': title,
         'posts_count': post_list.count(),
         'author': author,
         'page_obj': page_obj,
@@ -132,6 +126,7 @@ def add_comment(request, post_id):
     return redirect('posts:post_detail', post_id=post_id)
 
 
+@cache_page(20)
 @login_required
 def follow_index(request):
     current_user = request.user

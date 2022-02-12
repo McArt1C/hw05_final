@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 
-{% load cache %}
-
-{% block title %}{{ title }}{% endblock %}
+{% block title %}Избранное{% endblock %}
 {% block content %}
   {% include 'posts/includes/switcher.html' with follow=True %}
     <div class="mb-5">
@@ -14,7 +12,6 @@
       {% endfor %}
       </ul>
     </div>
-  {% cache 20 follow_page %}
     {% for post in page_obj %}
     {% include 'posts/includes/post_list.html' %}
       {% if post.group %}
@@ -22,6 +19,5 @@
       {% endif %}
       {% if not forloop.last %}<hr>{% endif %}
     {% endfor %}
-  {% endcache %}
   {% include 'posts/includes/paginator.html' %}
 {% endblock %}
