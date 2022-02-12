@@ -1,6 +1,30 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
+from django.urls import reverse
 
 from .models import Post, Group, Comment
+
+
+class EditLinkToInlineObject(object):
+    def edit_link(self, instance):
+        app_label = instance._meta.app_label
+        model_name = instance._meta.model_name
+        path = f'admin:{app_label}_{model_name}_change'
+        url = reverse(path,  args=[instance.pk])
+        if instance.pk:
+            return mark_safe(u'<a href="{u}">Редактировать</a>'.format(u=url))
+        else:
+            return ''
+
+
+class PostInline(EditLinkToInlineObject, admin.TabularInline):
+    model = Post
+    readonly_fields = ('edit_link', )
+
+
+class CommentInline(EditLinkToInlineObject, admin.TabularInline):
+    model = Comment
+    readonly_fields = ('edit_link', )
 
 
 class PostAdmin(admin.ModelAdmin):
@@ -21,6 +45,7 @@ class PostAdmin(admin.ModelAdmin):
         'pub_date',
     )
     empty_value_display = '-пусто-'
+    inlines = (CommentInline, )
 
 
 class GroupAdmin(admin.ModelAdmin):
@@ -33,6 +58,7 @@ class GroupAdmin(admin.ModelAdmin):
         'description',
     )
     empty_value_display = '-пусто-'
+    inlines = (PostInline, )
 
 
 class CommentAdmin(admin.ModelAdmin):

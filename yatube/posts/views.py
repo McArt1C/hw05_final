@@ -126,7 +126,6 @@ def add_comment(request, post_id):
     return redirect('posts:post_detail', post_id=post_id)
 
 
-@cache_page(20)
 @login_required
 def follow_index(request):
     current_user = request.user
