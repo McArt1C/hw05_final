@@ -10,8 +10,12 @@ class PostForm(forms.ModelForm):
 
     def clean_text(self):
         data = self.cleaned_data['text']
-        if len(data) == 0:
-            raise forms.ValidationError('Текст Пушкин будет писать?')
+        min_text_lenght = 100
+        if len(data) < min_text_lenght:
+            raise forms.ValidationError(
+                f'Маловато будет! Пост должен содержать не менее '
+                f'{min_text_lenght} символов.'
+            )
         return data
 
 
