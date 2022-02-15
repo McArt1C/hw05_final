@@ -10,7 +10,7 @@ class PostForm(forms.ModelForm):
 
     def clean_text(self):
         data = self.cleaned_data['text']
-        min_text_lenght = 100
+        min_text_lenght = 10
         if len(data) < min_text_lenght:
             raise forms.ValidationError(
                 f'Маловато будет! Пост должен содержать не менее '
