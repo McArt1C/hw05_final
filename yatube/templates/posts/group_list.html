@@ -15,8 +15,8 @@
     Дата публикации: {{ post.pub_date|date:"d E Y" }}
   </li>
 </ul>
-{% thumbnail post.image "128x128" crop="center" upscale=False as im %}
-<img class="card-img my-2" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+{% thumbnail post.image "480x360" padding=True as im %}
+<img class="card-img my-2" src="{{ im.url }}">
 {% endthumbnail %}
 <p>{{ post.text }}</p>
 <a href="{% url 'posts:index' %}">Вернуться на главную</a>

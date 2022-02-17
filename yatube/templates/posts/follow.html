@@ -2,16 +2,16 @@
 
 {% block title %}Избранное{% endblock %}
 {% block content %}
-  {% include 'posts/includes/switcher.html' with follow=True %}
-    <div class="mb-5">
-      <ul>
-      {% for author in following_list %}
-          <li>
-            <p>{{ author.get_full_name }}</p>
-          </li>
-      {% endfor %}
-      </ul>
-    </div>
+        {% include 'posts/includes/switcher.html' with follow=True %}
+          <div class="mb-5">
+            <ul>
+            {% for author in following_list %}
+                <li>
+                  <p>{{ author.get_full_name }}</p>
+                </li>
+            {% endfor %}
+            </ul>
+          </div>
     {% for post in page_obj %}
     {% include 'posts/includes/post_list.html' %}
       {% if post.group %}

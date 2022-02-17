@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="ru">
   <head>
@@ -21,10 +20,13 @@
     <header>
       {% include 'includes/header.html' %}
     </header>
+    <main>
+      <div class="mb-5">
+        <div class="container py-5">
     {% block content %}{% endblock %}
-    <!-- border-top: создаёт тонкую линию сверху блока -->
-    <!-- text-center: выравнивает текстовые блоки внутри блока по центру -->
-    <!-- py-3: контент внутри размещается с отступом сверху и снизу -->
+        </div>
+      </div>
+    </main>
     <footer class="border-top text-center py-3">
       {% include 'includes/footer.html' %}
     </footer>
