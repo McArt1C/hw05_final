@@ -9,7 +9,7 @@
 {% for post in page_obj %}
 <ul>
   <li>
-    Автор: {{ post.author.get_full_name }}
+    Автор: {{ post.author.get_user_name }}
   </li>
   <li>
     Дата публикации: {{ post.pub_date|date:"d E Y" }}

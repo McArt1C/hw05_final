@@ -136,6 +136,6 @@ class Follow(models.Model):
         verbose_name_plural = 'Подписки'
 
     def __str__(self):
-        user_full_name = self.user.get_full_name()
-        author_full_name = self.author.get_full_name()
+        user_full_name = self.user.get_user_name()
+        author_full_name = self.author.get_user_name()
         return f'{user_full_name} подписан на {author_full_name}'
