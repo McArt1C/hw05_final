@@ -4,23 +4,23 @@
 
 {% block title %}Записи сообщества {{ group.description }}{% endblock %}
 {% block content %}
-<h1>{{ group.title }}</h1>
-<p>{{ group.description }}</p>
-{% for post in page_obj %}
-<ul>
-  <li>
-    Автор: {{ post.author.get_user_name }}
-  </li>
-  <li>
-    Дата публикации: {{ post.pub_date|date:"d E Y" }}
-  </li>
-</ul>
-{% thumbnail post.image "480x360" padding=True as im %}
-<img class="card-img my-2" src="{{ im.url }}">
-{% endthumbnail %}
-<p>{{ post.text }}</p>
-<a href="{% url 'posts:index' %}">Вернуться на главную</a>
-{% if not forloop.last %}<hr>{% endif %}
-{% endfor %}
-{% include 'posts/includes/paginator.html' %}
+    <h1>{{ group.title }}</h1>
+    <p>{{ group.description }}</p>
+    {% for post in page_obj %}
+        <ul>
+            <li>
+                Автор: {{ post.author.get_user_name }}
+            </li>
+            <li>
+                Дата публикации: {{ post.pub_date|date:"d E Y" }}
+            </li>
+        </ul>
+        {% thumbnail post.image "480x360" padding=True as im %}
+            <img class="card-img my-2" src="{{ im.url }}">
+        {% endthumbnail %}
+        <p>{{ post.text }}</p>
+        <a href="{% url 'posts:index' %}">Вернуться на главную</a>
+        {% if not forloop.last %}<hr>{% endif %}
+    {% endfor %}
+    {% include 'posts/includes/paginator.html' %}
 {% endblock %}
