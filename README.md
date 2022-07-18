@@ -1,3 +1,13 @@
 # hw05_final
 
-[![CI](https://github.com/yandex-praktikum/hw05_final/actions/workflows/python-app.yml/badge.svg?branch=master)](https://github.com/yandex-praktikum/hw05_final/actions/workflows/python-app.yml)
+### Проект YaTube
+
+Проект **YaTube** собирает посты пользователей. Посты делятся на группы. Список групп может быть расширен администратором.
+Благодарные или возмущённые пользователи оставляют к постам комментарии.
+
+### Доступы следующие ресурсы:
+- /group/<slug> - просмотр постов, принадлежащих группе
+- /profile/<username> - просмотр постов, написанных указанным пользователем
+- /posts/<post_id> - просмотр детальной информации поста
+- /profile/<username>/follow - подписаться на автора
+- /profile/<username>/unfollow - отписаться от автора
